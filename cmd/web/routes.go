@@ -5,13 +5,19 @@ import (
 
 	"github.com/anjotadena/projectX/pkg/config"
 	"github.com/anjotadena/projectX/pkg/handlers"
-	"github.com/bmizerany/pat"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func routes(app *config.AppConfig) http.Handler {
-	mux := pat.New()
+	r := chi.NewRouter()
 
-	mux.Get("/", http.HandlerFunc(handlers.Repo.Home))
+	// Middlewares
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
 
-	return mux
+	// routes
+	r.Get("/", handlers.Repo.Home)
+
+	return r
 }
