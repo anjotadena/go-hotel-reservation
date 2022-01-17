@@ -13,7 +13,8 @@ func routes(app *config.AppConfig) http.Handler {
 	r := chi.NewRouter()
 
 	// Middlewares
-	r.Use(WriteToConsole)
+	// r.Use(WriteToConsole)
+	r.Use(NoSurf)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
