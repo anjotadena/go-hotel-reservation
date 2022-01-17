@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/anjotadena/projectX/pkg/config"
+	"github.com/anjotadena/projectX/pkg/handlers"
 )
 
 var functions = template.FuncMap{}
@@ -19,7 +20,7 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, t string) {
+func RenderTemplate(w http.ResponseWriter, t string, td *handlers.TemplateData) {
 
 	var tc map[string]*template.Template
 
@@ -37,7 +38,7 @@ func RenderTemplate(w http.ResponseWriter, t string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = tmplt.Execute(buf, nil)
+	_ = tmplt.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 

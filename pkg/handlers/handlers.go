@@ -7,6 +7,18 @@ import (
 	"github.com/anjotadena/projectX/pkg/render"
 )
 
+// TemplateData hold dataset
+type TemplateData struct {
+	StringMap map[string]string
+	IntMap    map[string]int
+	FloatMap  map[string]float32
+	Data      map[string]interface{}
+	CSRFToken string
+	Flash     string
+	Warning   string
+	Error     string
+}
+
 // Repo the repository used by the handlers
 var Repo *Repository
 
@@ -28,5 +40,9 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.html")
+	stringMap := make(map[string]string)
+
+	render.RenderTemplate(w, "home.page.html", &TemplateData{
+		StringMap: stringMap,
+	})
 }
