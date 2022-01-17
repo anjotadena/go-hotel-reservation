@@ -7,29 +7,33 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/anjotadena/projectX/pkg/config"
 )
 
 var functions = template.FuncMap{}
 
+var app *config.AppConfig
+
+func NewTemplates(a *config.AppConfig) {
+	app = a
+}
+
 func RenderTemplate(w http.ResponseWriter, t string) {
 
-	tc, err := CreateTemplateCache()
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	tc := app.TemplateCache
 
 	tmplt, exists := tc[t]
 
 	if !exists {
-		log.Fatal("Template doesn't exists")
+		log.Fatal("Could not get template from template cache")
 	}
 
 	buf := new(bytes.Buffer)
 
 	_ = tmplt.Execute(buf, nil)
 
-	_, err = buf.WriteTo(w)
+	_, err := buf.WriteTo(w)
 
 	if err != nil {
 		fmt.Println("Err0r writing template to browser", err)

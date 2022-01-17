@@ -23,6 +23,8 @@ func main() {
 
 	app.TemplateCache = tc
 
+	render.NewTemplates(&app)
+
 	http.HandleFunc("/", handlers.Home)
 
 	fmt.Println(fmt.Sprintf("Starting application on port %s", portNumber))
