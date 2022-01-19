@@ -17,9 +17,11 @@ func routes(app *config.AppConfig) http.Handler {
 	r.Use(NoSurf)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(SessionLoad)
 
 	// routes
 	r.Get("/", handlers.Repo.Home)
+	r.Get("/about", handlers.Repo.About)
 
 	return r
 }
